@@ -1,8 +1,14 @@
 {% extends "base.jinja" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Google+ Friends{% endblock %}
 
 {% block content %}
-    <h1 class="header">Index</h1>
-    <p class="well">Welcome on my awesome homepage.</p>
+    <p class="lead">Welcome on my awesome homepage. You must be logged in to
+        view your friends and their +1'd pages.</p>
+    <div id="login">
+        <a href="/login" class="btn btn-large btn-block btn-danger">
+            <img src="/static/img/gplus.png" />
+            Sign In
+        </a>
+    </div>
 {% endblock %}

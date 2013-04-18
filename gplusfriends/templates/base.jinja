@@ -4,17 +4,23 @@
 <head>
     {% block head %}
     <link rel="stylesheet" href="static/css/bootstrap.css" />
+    <link rel="stylesheet" href="static/css/custom.css" />
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 </head>
 <body>
+<div id="wrap">
     <div class="container">
+        <h1 class="page-header">Google+ Friends</h1>
         {% block content %}
         {% endblock %}
-    <footer>
-        {% block footer %}
-        &copy; Copyright 2013
-        {% endblock %}
-    </footer>
     </div>
+</div>
+<footer>
+    <div class="container">
+    {% block footer %}
+        <p class="muted credit">&copy; Copyright 2013</p>
+    {% endblock %}
+    </div>
+</footer>
 </body>
