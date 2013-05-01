@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import requests
-from flask import render_template, redirect, url_for, session
+
+from flask import render_template, url_for, redirect, session
 
 from gplusfriends import app, google
+from gplusfriends.tasks import process_data
 
 
 @app.route('/')
@@ -11,11 +12,12 @@ def index():
     access_token = get_access_token()
 
     if access_token is None:
-        return render_template('index.jinja')
+        return render_template('index.html')
 
-    headers = {'Authorization': 'Bearer ' + access_token[0]}
+    return process_data(access_token[0])
 
-    return google.get('people/me', headers=headers).raw_data
+
+# ----------------------- A U T H E N T I C A T I O N -------------------------
 
 
 @app.route('/login')
