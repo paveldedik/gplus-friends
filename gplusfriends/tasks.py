@@ -5,10 +5,11 @@ from gplusfriends import google
 from gplusfriends.models import Person
 
 
-def get_resource(endpoint):
+def resource(endpoint):
     def wrapper(get_entity):
         def func(entity_id, headers=None):
-            data = google.get(endpoint + entity_id, headers=headers).data
+            relative_url = endpoint + '/' + entity_id
+            data = google.get(relative_url, headers=headers).data
             return get_entity(data, entity_id)
         return func
     return wrapper
@@ -20,12 +21,12 @@ def process_data(token):
     return person.to_json()
 
 
-@get_resource('people/')
+@resource('people')
 def get_person(data, entity_id, headers=None):
     return Person(data['id'], data['displayName'],
                   url=data['url'], gender=data['gender'])
 
 
-@get_resource('activities/')
+@resource('activities')
 def get_activity(data, entity_id, headers=None):
     raise NotImplementedError
