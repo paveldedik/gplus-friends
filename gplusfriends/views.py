@@ -17,7 +17,7 @@ def index():
     return process_data(access_token[0])
 
 
-# ----------------------- A U T H E N T I C A T I O N -------------------------
+# ----------------------- AUTHENTICATION ENDPOINTS -------------------------
 
 
 @app.route('/login')

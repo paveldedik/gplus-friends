@@ -5,6 +5,8 @@ import json
 
 
 class Document(object):
+    """Representation of a document mixin.
+    """
 
     def __repr__(cls):
         return '<{0} id:{1}>'.format(cls.__class__.__name__, cls.id)
@@ -19,6 +21,8 @@ class Document(object):
 
 
 class Person(Document):
+    """Representation of a person.
+    """
 
     def __init__(self, id, name, **kwargs):
         self.id = id
@@ -30,6 +34,8 @@ class Person(Document):
 
 
 class Activity(Document):
+    """Representation of an activity.
+    """
 
     def __init__(self, id, title, **kwargs):
         self.id = id
