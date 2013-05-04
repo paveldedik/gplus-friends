@@ -20,7 +20,8 @@
             {% if messages %}
                 {% for category, message in messages %}
                 <div class="alert alert-{{ category }}">
-                    <strong>Info!</strong> {{ message }}
+                    <strong>{{ category|capitalize }}!</strong>
+                    {{ message }}
                 </div>
                 {% endfor %}
             {% endif %}
