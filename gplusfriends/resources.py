@@ -5,6 +5,7 @@ Google+ API resources
 =====================
 """
 
+from flask import abort
 
 from gplusfriends import google, app
 from gplusfriends.models import Person, Activity
@@ -24,8 +25,10 @@ def resource(endpoint):
     def wrapper(func):
         def decorator(token, **kwargs):
             formated = endpoint.format(**kwargs)
-            data = google.get(formated, headers=get_header(token)).data
-            return func(data)
+            resp = google.get(formated, headers=get_header(token))
+            if resp.status != 200:
+                abort(resp.status)
+            return func(resp.data)
         return decorator
     return wrapper
 
@@ -36,7 +39,7 @@ def get_person(data):
     :class:`models.Person`.
     :param token: Access token required for authorization.
     :param id: ID of the requested user. Posible value is ``'me'``,
-                which requests the user that is currently logged in.
+               which requests the user that is currently logged in.
     """
     # create the person
     kwargs = Person.from_google(data)

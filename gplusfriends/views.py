@@ -5,7 +5,6 @@ Application views
 =================
 """
 
-
 from hashlib import md5
 from flask import render_template, flash, url_for, redirect, session
 

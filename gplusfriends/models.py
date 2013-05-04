@@ -5,7 +5,6 @@ Application models
 ==================
 """
 
-
 import json
 
 

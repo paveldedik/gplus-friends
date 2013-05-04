@@ -5,7 +5,6 @@ Tasks
 =====
 """
 
-
 from gplusfriends.resources import get_person, get_people, get_activities
 
 
