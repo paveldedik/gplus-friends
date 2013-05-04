@@ -4,9 +4,17 @@
 import json
 
 
+class DocumentEncoder(json.JSONEncoder):
+    """JSON encoder."""
+
+    def default(self, obj):
+        if isinstance(obj, Document):
+            return obj.to_dict()
+        return json.JSONEncoder.default(self, obj)
+
+
 class Document(object):
-    """Representation of a document mixin.
-    """
+    """Representation of a document mixin."""
 
     def __repr__(cls):
         return '<{0} id:{1}>'.format(cls.__class__.__name__, cls.id)
@@ -17,26 +25,40 @@ class Document(object):
              if not attr[0].startswith('_')))
 
     def to_json(cls):
-        return json.dumps(cls.to_dict(), indent=2)
+        return json.dumps(cls.to_dict(), indent=2,
+                          ensure_ascii=False, cls=DocumentEncoder)
 
 
 class Person(Document):
-    """Representation of a person.
+    """Representation of a person. `See Google+ API reference
+    <https://developers.google.com/+/api/latest/activities>`_.
+    :param id: Google+ unique ID of the person.
+    :param name: Name of the person.
+    :param url: The link to the profile of the person.
+    :param gender: The person's gender. Possible values are ``male``,
+                   ``female`` or ``other``.
+    :param friends: All the friends the person has in their circles.
+    :param activities: All the activities the person posted.
     """
-
     def __init__(self, id, name, **kwargs):
         self.id = id
         self.name = name
         self.url = kwargs.get('url')
-        self.gender = kwargs.get('gender')
+        self.gender = kwargs.get('gender', 'other')
         self.friends = kwargs.get('friends', [])
         self.activities = kwargs.get('activities', [])
 
 
 class Activity(Document):
-    """Representation of an activity.
+    """Representation of an activity. `See Google+ API reference
+    <https://developers.google.com/+/api/latest/activities>`_.
+    :param id: Google+ unique ID of the activity.
+    :param title: Title of the activity.
+    :param url: The link to the activity.
+    :param date: The time at which this activity was initially published.
+    :param content: The content of the activity (HTML formated).
+    :param publisher: The person who performed the activity.
     """
-
     def __init__(self, id, title, **kwargs):
         self.id = id
         self.title = title
