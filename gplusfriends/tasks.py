@@ -19,4 +19,4 @@ def process_data(token):
 
     person.friends.extend(friends)
     person.activities.extend(activities)
-    return person.to_json()
+    return person

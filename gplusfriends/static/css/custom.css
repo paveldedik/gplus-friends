@@ -4,6 +4,13 @@ body {
   height: 100%;
 }
 
+header {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -61px;
+}
+
 footer {
   background-color: #f3f3f3;
   border-top: 1px solid #e5e5e5;
@@ -21,13 +28,6 @@ footer {
 .page-header {
   color: #555;
   margin-top: 40px;
-}
-
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -61px;
 }
 
 #push,

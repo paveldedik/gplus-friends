@@ -1,14 +1,40 @@
-{% extends "base.html" %}
-
-{% block title %}Google+ Friends{% endblock %}
-
-{% block content %}
-    <p class="lead">Welcome on my awesome homepage. You must be logged in to
-        view your friends and their +1'd pages.</p>
-    <div id="login">
-        <a href="/login" class="btn btn-large btn-danger">
-            <img src="/static/img/gplus.png" alt="Google+" />
-            Sign In
-        </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="/static/css/bootstrap.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+    <title>Google+ Friends</title>
+    {% endblock %}
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1 class="page-header">
+            Google+ Friends
+            <span class="pull-right">
+                {% block small %}{% endblock %}
+            </span>
+        </h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    <strong>Info!</strong> {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
     </div>
-{% endblock %}
+    <div id="push"></div>
+</header>
+<footer>
+    <div class="container">
+    {% block footer %}
+        <p class="muted credit">PB138 &ndash; Modern Markup Languages</p>
+    {% endblock %}
+    </div>
+</footer>
+</body>

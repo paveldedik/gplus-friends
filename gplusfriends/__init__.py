@@ -6,6 +6,7 @@ __version__ = '0.0.1'
 
 from flask import Flask
 from flask_oauth import OAuth
+from werkzeug.contrib.cache import SimpleCache
 
 
 app = Flask(__name__)
@@ -27,6 +28,8 @@ google = oauth.remote_app('google',
     consumer_key=app.config['GOOGLE_CLIENT_ID'],
     consumer_secret=app.config['GOOGLE_CLIENT_SECRET']
 )
+
+cache = SimpleCache()
 
 
 from gplusfriends import views

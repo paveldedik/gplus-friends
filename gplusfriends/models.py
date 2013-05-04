@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""
+Application models
+==================
+"""
+
 
 import json
 
@@ -40,13 +45,22 @@ class Person(Document):
     :param friends: All the friends the person has in their circles.
     :param activities: All the activities the person posted.
     """
-    def __init__(self, id, name, **kwargs):
-        self.id = id
-        self.name = name
+    def __init__(self, **kwargs):
+        self.id = kwargs['id']
+        self.name = kwargs['name']
         self.url = kwargs.get('url')
-        self.gender = kwargs.get('gender', 'other')
+        self.gender = kwargs.get('gender')
         self.friends = kwargs.get('friends', [])
         self.activities = kwargs.get('activities', [])
+
+    @staticmethod
+    def from_google(data):
+        return {
+            'id': data.get('id'),
+            'name': data.get('displayName'),
+            'url': data.get('url'),
+            'gender': data.get('gender')
+        }
 
 
 class Activity(Document):
@@ -59,10 +73,21 @@ class Activity(Document):
     :param content: The content of the activity (HTML formated).
     :param publisher: The person who performed the activity.
     """
-    def __init__(self, id, title, **kwargs):
-        self.id = id
-        self.title = title
+    def __init__(self, **kwargs):
+        self.id = kwargs['id']
+        self.title = kwargs.get('title')
         self.url = kwargs.get('url')
         self.date = kwargs.get('date')
         self.content = kwargs.get('content')
         self.publisher = kwargs.get('publisher')
+
+    @staticmethod
+    def from_google(data):
+        return {
+            'id': data.get('id'),
+            'title': data.get('title'),
+            'url': data.get('url'),
+            'date': data.get('published'),
+            'content': kwargs['object'].get('content'),
+            'publisher': kwargs.get('publisher')
+        }

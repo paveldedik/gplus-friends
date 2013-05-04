@@ -38,8 +38,9 @@ def get_person(data):
     :param id: ID of the requested user. Posible value is ``'me'``,
                 which requests the user that is currently logged in.
     """
-    return Person(data['id'], data['displayName'],
-                  url=data['url'], gender=data['gender'])
+    # create the person
+    kwargs = Person.from_google(data)
+    return Person(**kwargs)
 
 
 @resource('activities/{id}')
@@ -49,11 +50,12 @@ def get_activity(data):
     :param token: Access token required for authorization.
     :param id: ID of the requested activity.
     """
-    publisher = Person(data['actor']['id'], data['actor']['displayName'],
-                       url=data['actor']['url'])
-    return Activity(data['id'], data['title'], url=data['url'],
-                   date=data['published'], publisher=publisher,
-                   content=data['object']['content'])
+    # create the person
+    person_kwargs = Person.from_google(data['actor'])
+    publisher = Person(**person_kwargs)
+    # create the activity
+    activity_kwargs = Activity.from_google(data)
+    return Activity(publisher=publisher, **activity_kwargs)
 
 
 @resource('people/{id}/people/visible')
@@ -64,9 +66,10 @@ def get_people(data):
     :param id: ID of the person who's friends will be requested.
     """
     people = []
-
     for item in data['items']:
-        person = Person(item['id'], item['displayName'], url=item['url'])
+        # create the person
+        kwargs = Person.from_google(item)
+        person = Person(**kwargs)
         people.append(person)
 
     return people
@@ -80,13 +83,13 @@ def get_activities(data):
     :param id: ID of the person who's activities will be requested.
     """
     activities = []
-
     for item in data['items']:
-        publisher = Person(item['actor']['id'], item['actor']['displayName'],
-                           url=item['actor']['url'])
-        activity = Activity(item['id'], item['title'], url=item['url'],
-                            date=item['published'], publisher=publisher,
-                            content=item['object']['content'])
+        # create the person
+        person_kwargs = Person.from_google(item['actor'])
+        publisher = Person(**person_kwargs)
+        # create the activity
+        activity_kwargs = Activity.from_google(item)
+        activity = Activity(publisher=publisher, **activity_kwargs)
         activities.append(activity)
 
     return activities
