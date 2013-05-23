@@ -35,7 +35,7 @@ class Document(object):
 
 class Person(Document):
     """Representation of a person. `See Google+ API reference
-    <https://developers.google.com/+/api/latest/activities>`_.
+    <https://developers.google.com/+/api/latest/people>`_.
     :param id: Google+ unique ID of the person.
     :param name: Name of the person.
     :param url: The link to the profile of the person.

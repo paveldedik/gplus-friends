@@ -5,16 +5,25 @@ Google+ API resources
 =====================
 """
 
-from flask import abort
+from flask import abort, session
 
 from gplusfriends import google, app
 from gplusfriends.models import Person, Activity
 
 
-def get_header(token):
-    """Returns header required for Google+ API authorization.
-    :param token: User's access token.
+@google.tokengetter
+def get_access_token():
+    """Returns user's access token.
+    :return: Access token.
     """
+    return session.get('access_token')
+
+
+def get_header():
+    """Returns header required for Google+ API authorization.
+    :return: Google+ header needed for authorization.
+    """
+    token = get_access_token()[0]
     return {'Authorization': app.config['GOOGLE_AUTH'].format(token=token)}
 
 
@@ -23,9 +32,9 @@ def resource(endpoint):
     :param endpoint: The type of data that will be requested.
     """
     def wrapper(func):
-        def decorator(token, **kwargs):
+        def decorator(**kwargs):
             formated = endpoint.format(**kwargs)
-            resp = google.get(formated, headers=get_header(token))
+            resp = google.get(formated, headers=get_header())
             if resp.status != 200:
                 abort(resp.status)
             return func(resp.data)
