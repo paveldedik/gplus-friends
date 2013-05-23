@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Application views
+Application Views
 =================
 """
 
@@ -9,6 +9,7 @@ from flask import render_template, flash, url_for, redirect, session
 
 from gplusfriends import app, google
 from gplusfriends.tasks import get_person_data
+from gplusfriends.resources import get_access_token
 
 
 @app.route('/')
@@ -16,9 +17,18 @@ def index():
     """Homepage of the application.
     :return: HTML document.
     """
-    person = get_person_data()
-    if person is None:
+    token = get_access_token()
+    if token is None:
         return render_template('loggedout.html')
+    else:
+        return render_template('loggedin.html')
+
+
+@app.route('/person/<string:pid>')
+def person(pid):
+    person = get_person_data(pid)
+    if person is None:
+        return redirect(url_for('index'))
     else:
         return render_template('loggedin.html', person=person)
 

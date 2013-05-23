@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Google+ API resources
+Google+ API Resources
 =====================
 """
 

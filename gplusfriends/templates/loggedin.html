@@ -1,5 +1,9 @@
 {% extends "index.html" %}
 
+{% block header %}
+    {{ person.name }}'s Friends
+{% endblock %}
+
 {% block small %}
     <a href="/logout" class="btn btn-primary">Sign Out</a>
 {% endblock %}
@@ -7,23 +11,10 @@
 {% block content %}
     <p class="lead">Welcome on my awesome homepage. You can view your
         information below.</p>
-    <h3>{{ person.name|e }}'s Friends</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>ID</th>
-                <th>Profile URL</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for friend in person.friends %}
-            <tr>
-                <td>{{ friend.name }}</td>
-                <td>{{ friend.id }}</td>
-                <td><a href="{{ friend.url }}">link</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    {% if person is defined %}
+        {% include "tables.html" %}
+    {% else %}
+    <a href="/person/me" class="btn btn-large">Load Data</a>
+    {% endif %}
 {% endblock %}

@@ -39,25 +39,28 @@ class Person(Document):
     :param id: Google+ unique ID of the person.
     :param name: Name of the person.
     :param url: The link to the profile of the person.
+    :param type: Whether the person is a page or a person.
     :param gender: The person's gender. Possible values are ``male``,
                    ``female`` or ``other``.
-    :param friends: All the friends the person has in their circles.
+    :param people: All the friends and pages the person has in their circles.
     :param activities: All the activities the person posted.
     """
     def __init__(self, **kwargs):
         self.id = kwargs['id']
         self.name = kwargs['name']
         self.url = kwargs.get('url')
+        self.type = kwargs.get('type')
         self.gender = kwargs.get('gender')
-        self.friends = kwargs.get('friends', [])
+        self.people = kwargs.get('people', [])
         self.activities = kwargs.get('activities', [])
 
     @staticmethod
     def from_google(data):
         return {
             'id': data.get('id'),
-            'name': data.get('displayName'),
+            'name': data.get('displayName').strip(' .'),
             'url': data.get('url'),
+            'type': data.get('objectType'),
             'gender': data.get('gender')
         }
 
@@ -87,6 +90,5 @@ class Activity(Document):
             'title': data.get('title'),
             'url': data.get('url'),
             'date': data.get('published'),
-            'content': kwargs['object'].get('content'),
-            'publisher': kwargs.get('publisher')
+            'content': data['object'].get('content')
         }
