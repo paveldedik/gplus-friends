@@ -19,29 +19,38 @@ class DocumentEncoder(json.JSONEncoder):
 
 
 class Document(object):
-    """Abstract class represents a document."""
+    """Abstract class that represents a document (e.g. XML, JSON)."""
 
     def __repr__(cls):
         return '<{0} id:{1}>'.format(cls.__class__.__name__, cls.id)
 
     def to_dict(cls):
-        """Creates a dictionary which represents the instance ``cls``."""
+        """Creates a dictionary which represents the instance ``cls``.
+        :return: A dictionary.
+        """
         return dict(
             (attr for attr in cls.__dict__.items()
              if not attr[0].startswith('_')))
 
     def to_json(cls):
-        """Creates a JSON document which represents the instance ``cls``."""
+        """Creates a JSON document which represents the instance ``cls``.
+        :return: A string.
+        """
         return json.dumps(cls.to_dict(), indent=2,
                           ensure_ascii=False, cls=DocumentEncoder)
 
-    def pretty_xml(cls):
-        """Creates XML document which represents the instance ``cls``."""
-        xml = cls.to_xml()
+    def to_xml(cls):
+        """Creates XML document which represents the instance ``cls``.
+        :return: A string.
+        """
+        xml = cls.to_etree()
         return etree.tostring(xml, encoding='UTF-8', pretty_print=True,
                               xml_declaration=True)
 
-    def to_xml(cls):
+    def to_etree(cls):
+        """Abstract method which creates an XML etree.
+        :return: An instance of the :class:`etree.Element`.
+        """
         raise NotImplementedError
 
 
@@ -66,7 +75,7 @@ class Person(Document):
         self.people = kwargs.get('people', [])
         self.activities = kwargs.get('activities', [])
 
-    def to_xml(self):
+    def to_etree(self):
         """This method creates an XML etree which represents an isinstance
         of the class Activity.
         :return: An instance of the :class:`etree.Element`.
@@ -129,7 +138,7 @@ class Activity(Document):
         self.content = kwargs.get('content')
         self.publisher = kwargs.get('publisher')
 
-    def to_xml(self):
+    def to_etree(self):
         """This method creates an XML etree which represents an isinstance
         of the class Activity.
         :return: An instance of the :class:`etree.Element`.
