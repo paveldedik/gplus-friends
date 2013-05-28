@@ -1,20 +1,16 @@
 {% extends "index.html" %}
 
-{% block header %}
-    {{ person.name }}'s Friends
-{% endblock %}
-
 {% block small %}
     <a href="/logout" class="btn btn-primary">Sign Out</a>
 {% endblock %}
 
 {% block content %}
-    <p class="lead">Welcome on my awesome homepage. You can view your
-        information below.</p>
-
     {% if person is defined %}
+        <p class="lead">You can view
+            <strong>{{ person.name }}</strong>'s information below.</p>
         {% include "tables.html" %}
     {% else %}
-    <a href="/person/me" class="btn btn-large">Load Data</a>
+        <p class="lead">You can load users information below.</p>
+        <a href="/people/me" class="btn btn-large">Load Data</a>
     {% endif %}
 {% endblock %}

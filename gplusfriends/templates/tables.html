@@ -1,5 +1,5 @@
-<h3>People and Pages</h3>
 {% if person.people %}
+<h3>People and Pages</h3>
 <table class="table">
     <thead>
         <tr>
@@ -11,15 +11,13 @@
     <tbody>
         {% for entity in person.people %}
         <tr>
-            <td><a href="/person/{{ entity.id }}">{{ entity.name }}</a></td>
+            <td><a href="/people/{{ entity.id }}">{{ entity.name }}</a></td>
             <td>{{ entity.type }}</td>
             <td><a href="{{ entity.url }}">link</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-{% else %}
-<p class="well">The user doesn't have any public friends or pages.</p>
 {% endif %}
 
 <h3>Activities</h3>

@@ -1,3 +1,6 @@
+html {
+  overflow-y: scroll;
+}
 
 html,
 body {
@@ -7,13 +10,16 @@ body {
 header {
   min-height: 100%;
   height: auto !important;
-  height: 100%;
   margin: 0 auto -61px;
 }
 
 footer {
   background-color: #f3f3f3;
   border-top: 1px solid #e5e5e5;
+}
+
+header .container {
+  margin-bottom: 30px;
 }
 
 .container {
@@ -28,6 +34,15 @@ footer {
 .page-header {
   color: #555;
   margin-top: 40px;
+}
+
+.logo {
+  color: #808080;
+}
+
+.logo:hover {
+  color: #222;
+  text-decoration: none;
 }
 
 #push,

@@ -6,6 +6,7 @@ Application models
 """
 
 import json
+from lxml import etree
 
 
 class DocumentEncoder(json.JSONEncoder):
@@ -18,19 +19,30 @@ class DocumentEncoder(json.JSONEncoder):
 
 
 class Document(object):
-    """Representation of a document mixin."""
+    """Abstract class represents a document."""
 
     def __repr__(cls):
         return '<{0} id:{1}>'.format(cls.__class__.__name__, cls.id)
 
     def to_dict(cls):
+        """Creates a dictionary which represents the instance ``cls``."""
         return dict(
             (attr for attr in cls.__dict__.items()
              if not attr[0].startswith('_')))
 
     def to_json(cls):
+        """Creates a JSON document which represents the instance ``cls``."""
         return json.dumps(cls.to_dict(), indent=2,
                           ensure_ascii=False, cls=DocumentEncoder)
+
+    def pretty_xml(cls):
+        """Creates XML document which represents the instance ``cls``."""
+        xml = cls.to_xml()
+        return etree.tostring(xml, encoding='UTF-8', pretty_print=True,
+                              xml_declaration=True)
+
+    def to_xml(cls):
+        raise NotImplementedError
 
 
 class Person(Document):
@@ -54,8 +66,42 @@ class Person(Document):
         self.people = kwargs.get('people', [])
         self.activities = kwargs.get('activities', [])
 
+    def to_xml(self):
+        """This method creates an XML etree which represents an isinstance
+        of the class Activity.
+        :return: An instance of the :class:`etree.Element`.
+        """
+        attrs = self.to_dict()
+        root = etree.Element('person', id=self.id)
+        ordered = ('name', 'url', 'type', 'gender', 'people', 'activities')
+
+        for attr in ordered:
+            value = attrs[attr]
+
+            if value:
+                elem = etree.Element(attr)
+
+                if attr == 'people':
+                    for person in value:
+                        person = etree.Element('person', id=person.id)
+                        elem.append(person)
+                elif attr == 'activities':
+                    for activity in value:
+                        activity = etree.Element('person', id=activity.id)
+                        elem.append(activity)
+                else:
+                    elem.text = value.decode('UTF-8')
+
+                root.append(elem)
+
+        return root
+
     @staticmethod
     def from_google(data):
+        """Filters the data retrieved from the Google+ API and returnes the
+        required ones. The data can be used to create instance of this class.
+        :return: A dictionary which contains the required data.
+        """
         return {
             'id': data.get('id'),
             'name': data.get('displayName').strip(' .'),
@@ -83,8 +129,31 @@ class Activity(Document):
         self.content = kwargs.get('content')
         self.publisher = kwargs.get('publisher')
 
+    def to_xml(self):
+        """This method creates an XML etree which represents an isinstance
+        of the class Activity.
+        :return: An instance of the :class:`etree.Element`.
+        """
+        attrs = self.to_dict()
+        root = etree.Element("activity", id=self.id)
+        ordered = ('title', 'url', 'date', 'content', 'publisher')
+
+        for attr in ordered:
+            value = attrs[attr]
+
+            if value:
+                elem = etree.Element(attr)
+                elem.text = value.decode('utf-8')
+                root.append(elem)
+
+        return root
+
     @staticmethod
     def from_google(data):
+        """Filters the data retrieved from the Google+ API and returnes the
+        required ones. The data can be used to create instance of this class.
+        :return: A dictionary which contains the required data.
+        """
         return {
             'id': data.get('id'),
             'title': data.get('title'),

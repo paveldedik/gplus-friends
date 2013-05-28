@@ -46,7 +46,6 @@ def resource(endpoint):
 def get_person(data):
     """Requests user's data and creates an instance of the
     :class:`models.Person`.
-    :param token: Access token required for authorization.
     :param id: ID of the requested user. Posible value is ``'me'``,
                which requests the user that is currently logged in.
     """
@@ -59,7 +58,6 @@ def get_person(data):
 def get_activity(data):
     """Requests activity's data and creates an instance of the
     :class:`models.Activity`.
-    :param token: Access token required for authorization.
     :param id: ID of the requested activity.
     """
     # create the person
@@ -74,7 +72,6 @@ def get_activity(data):
 def get_people(data):
     """Requests information about given persons's friends and creates
     a list :obj:`models.Person`.
-    :param token: Access token required for authorization.
     :param id: ID of the person who's friends will be requested.
     """
     people = []
@@ -91,7 +88,6 @@ def get_people(data):
 def get_activities(data):
     """Requests information about given persons's public activities
     and creates a list of :obj:`models.Activity`.
-    :param token: Access token required for authorization.
     :param id: ID of the person who's activities will be requested.
     """
     activities = []

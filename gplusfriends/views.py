@@ -24,7 +24,7 @@ def index():
         return render_template('loggedin.html')
 
 
-@app.route('/person/<string:pid>')
+@app.route('/people/<string:pid>')
 def person(pid):
     person = get_person_data(pid)
     if person is None:
@@ -52,7 +52,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route(app.config['REDIRECT_URI'])
+@app.route(app.config['GOOGLE_REDIRECT'])
 @google.authorized_handler
 def authorized(resp):
     """URI where the Google API redirects the user after successful login.
