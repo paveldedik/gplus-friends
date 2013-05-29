@@ -1,0 +1,53 @@
+{% extends "loggedin.html" %}
+
+{% block content %}
+    <p class="lead">You can view
+        <strong>{{ person.name }}</strong>'s information below.</p>
+    {% if person.people %}
+    <h3>People and Pages</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Type</th>
+                <th>Google+ URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in person.people %}
+            <tr>
+                <td><a href="/people/{{ entity.id }}">{{ entity.name }}</a></td>
+                <td>{{ entity.type }}</td>
+                <td><a href="{{ entity.url }}">link</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <h3>Activities</h3>
+    {% if person.activities %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Publisher</th>
+                <th>Date</th>
+                <th>Action</th>
+                <th>Google+ URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in person.activities %}
+            <tr>
+                <td>{{ activity.publisher.name }}</td>
+                <td>{{ activity.date.strftime('%d %B %Y') }}</td>
+                <td><a href="/activities/{{ activity.id }}">show</a>
+                <td><a href="{{ activity.url }}">link</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="well">The user doesn't have any public activities.</p>
+    {% endif %}
+{% endblock %}

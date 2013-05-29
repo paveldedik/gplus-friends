@@ -7,6 +7,7 @@ Application models
 
 import json
 from lxml import etree
+from datetime import datetime
 
 
 class DocumentEncoder(json.JSONEncoder):
@@ -25,7 +26,7 @@ class Document(object):
         return '<{0} id:{1}>'.format(cls.__class__.__name__, cls.id)
 
     def to_dict(cls):
-        """Creates a dictionary which represents the instance ``cls``.
+        """Creates a dictionary which represents the object ``cls``.
         :return: A dictionary.
         """
         return dict(
@@ -33,14 +34,14 @@ class Document(object):
              if not attr[0].startswith('_')))
 
     def to_json(cls):
-        """Creates a JSON document which represents the instance ``cls``.
+        """Creates a JSON document which represents the object ``cls``.
         :return: A string.
         """
         return json.dumps(cls.to_dict(), indent=2,
                           ensure_ascii=False, cls=DocumentEncoder)
 
     def to_xml(cls):
-        """Creates XML document which represents the instance ``cls``.
+        """Creates XML document which represents the object ``cls``.
         :return: A string.
         """
         xml = cls.to_etree()
@@ -163,10 +164,12 @@ class Activity(Document):
         required ones. The data can be used to create instance of this class.
         :return: A dictionary which contains the required data.
         """
+        published = datetime.strptime(
+            data.get('published')[:19], '%Y-%m-%dT%H:%M:%S')
         return {
             'id': data.get('id'),
             'title': data.get('title'),
             'url': data.get('url'),
-            'date': data.get('published'),
+            'date': published,
             'content': data['object'].get('content')
         }

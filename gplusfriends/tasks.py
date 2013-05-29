@@ -9,40 +9,36 @@ from hashlib import md5
 
 from gplusfriends import cache
 from gplusfriends.resources import (get_person, get_people, get_activities,
-                                    get_access_token)
+                                    get_activity, get_access_token)
 
 
-def get_person_data(person_id):
-    """Function that returnes cashed user's data.
-    :param person_id: ID of the requested person.
-    :return: The :class:`models.Person` instance if the user is logged in,
-             ``NoneType`` object otherwise.
+def cashed_data(func):
+    """Decorator which tries to load the needed data from the cache.
+    If the data aren't present in the cache, call the decorated function.
+    :param func: the decorated function.
     """
-    token = get_access_token()
-    if token is None:
-        return None
-    else:
+    def wrapper(entity_id):
+        token = get_access_token()
+
+        if token is None:
+            return None
+
         token_hash = md5(token[0]).hexdigest()
-        cache_id = '{0}-{1}'.format(person_id, token_hash)
-        return from_cache(cache_id, call=process_data, args=(person_id,))
+        cache_key = '{0}-{1}'.format(entity_id, token_hash)
+        data = cache.get(cache_key)
+
+        if data is None:
+            data = func(entity_id)
+            cache.set(cache_key, data, timeout=30 * 60)  # 30 minutes
+
+        return data
+    return wrapper
 
 
-def from_cache(key, call=None, args=()):
-    """Gets data from the cache.
-    :param key: The identifier of the data to be retrieved from the cache.
-    :param call: If the key isn't present in the cache, call the function.
-    :return: The retrieved data.
-    """
-    data = cache.get(key)
-    if data is None and call:
-        data = call(*args)
-        cache.set(key, data, timeout=30 * 60)  # 30 minutes
-    return data
-
-
-def process_data(person_id):
+@cashed_data
+def get_person_data(person_id):
     """Requests all google+ data about the specified person.
-    :param person_id: Google+ ID of the persen.
+    :param person_id: Google+ ID of the person.
     :return: An instance of the :class:`models.Person`.
     """
     person = get_person(id=person_id)
@@ -54,3 +50,12 @@ def process_data(person_id):
         person.people.extend(people)
 
     return person
+
+
+@cashed_data
+def get_activity_data(activity_id):
+    """Requests all google+ data about the specified activity.
+    :param activity_id: Google+ ID of the activity.
+    :return: An instance of the :class:`models.Activity`.
+    """
+    return get_activity(id=activity_id)

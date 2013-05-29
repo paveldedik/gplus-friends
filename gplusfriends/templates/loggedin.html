@@ -1,16 +1,10 @@
 {% extends "index.html" %}
 
 {% block small %}
-    <a href="/logout" class="btn btn-primary">Sign Out</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-primary">Sign Out</a>
 {% endblock %}
 
 {% block content %}
-    {% if person is defined %}
-        <p class="lead">You can view
-            <strong>{{ person.name }}</strong>'s information below.</p>
-        {% include "tables.html" %}
-    {% else %}
-        <p class="lead">You can load users information below.</p>
-        <a href="/people/me" class="btn btn-large">Load Data</a>
-    {% endif %}
+    <p class="lead">You can load users information below.</p>
+    <a href="/people/me" class="btn btn-large">Load Data</a>
 {% endblock %}

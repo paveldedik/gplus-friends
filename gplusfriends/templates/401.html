@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block title %}Unathorized{% endblock %}
+
+{% block small %}
+    <a href="{{ url_for('login') }}" class="btn btn-primary">Sign In</a>
+{% endblock %}
+
+{% block content %}
+  <div class="alert alert-error">
+    <strong>401 &ndash; Unauthorized.</strong>
+    You are either signed out or perhaps your access token has expired.
+  </div>
+{% endblock %}
