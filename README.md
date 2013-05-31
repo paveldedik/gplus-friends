@@ -20,7 +20,13 @@ After the installation run:
 $ python runserver.py
 ```
 
-Which will start up the server on the localhost (`127.0.0.1:5000`).
+Which starts up the server on the localhost (`127.0.0.1:5000`).
+
+**Note**: You should create your own client ID (see [Google API Console](https://code.google.com/apis/console/)) and edit the following variables in `gplusfriends/config.py`:
+
+* `GOOGLE_CLIENT_ID`
+* `GOOGLE_CLIENT_SECRET`
+* `GOOGLE_REDIRECT`
 
 Licence
 -------
