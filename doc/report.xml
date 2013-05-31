@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>Závěrečná zpráva PB138</title>
+    <author>
+      <personname>
+        <firstname>Pavel</firstname>
+        <surname>Dedík</surname>
+      </personname>
+      <affiliation>
+        <orgname>Masarykova univerzita Fakulta informatiky</orgname>
+      </affiliation>
+    </author>
+    <pubdate>31. 5. 2013</pubdate>
+  </info>
+
+  <section>
+    <title>Vizualizace přátel a oblíbených stránek na Google+</title>
+
+    <section>
+      <title>Zadání</title>
+      <para>Pomocí API získejte údaje o přátelích a oblíbených stránkách,
+        uložte jako xml, vizualizujte na webové stránce.</para>
+    </section>
+
+    <section>
+      <title>Práce na projektu</title>
+      <para>V první fázi projektu bylo nutné vyřešit dolování potřebných dat
+      přes Google+ API. Aby vůbec bylo možné data získávat, je nutné uživatele,
+      který chce data stáhnout autorizovat. Každý request, který aplikace
+      odesílá tak musí být autorizován. Google+ API poskytuje možnost
+      autorizace v podobě protokolu OAuth 2.0. V zásadě si aplikace vyžádá
+      tzv. <emphasis>access token</emphasis>, který jednoznačně identifikuje
+      uživatele. Google poskytuje knihovnu pro Python, která umožňuje práci
+      s Google+ API. Tato knihovna je však pro potřeby projektu příliš
+      komplexní a využívá velké množství (nejen) javascriptových knihoven.
+      Rozhodl jsme se tedy použít knihovnu Flask-Oauth, která poskytuje
+      jednoduché rozhraní pro práci s Facebook Graph API, Twitter API
+      i Google+ API.</para>
+
+      <para>Pro tvorbu webové aplikace jsem se rozhodl použít mikroframework
+      Flask. V návrhu aplikace jsem se snažil dodržovat vzor
+      model--view--contoller nebo spíš model--template--view, který je
+      specifický pro webový framework Django. Dynamickou tvorbu HTML dokumentů
+      v aplikaci zajišťuje templatovací systém Jinja2. Jednotlivé stránky
+      respektují HTML 5 standard, zatímco kaskádové styly z významné části
+      tvoří framework Twitter Bootstrap.</para>
+
+      <para>Jednotlivá data o uživatelích a jejich aktivitě lze jednak
+      zobrazit ve webové aplikaci, dále tyto informace lze stáhnout jako
+      XML dokument. Každý dokument odpovídá XML schématu, podle než jsou
+      jednotlivé dokumenty validovány v testech.</para>
+    </section>
+
+    <section>
+      <title>Knihovny, frameworky a technologie, které jsem použil:</title>
+      <itemizedlist>
+        <listitem>
+          <para>Python 2.7</para>
+        </listitem>
+        <listitem>
+          <para>Flask</para>
+        </listitem>
+        <listitem>
+          <para>Jinja2</para>
+        </listitem>
+        <listitem>
+          <para>lxml</para>
+        </listitem>
+        <listitem>
+          <para>Werkzeug</para>
+        </listitem>
+        <listitem>
+          <para>OAuth2</para>
+        </listitem>
+        <listitem>
+          <para>Requests</para>
+        </listitem>
+        <listitem>
+          <para>XML</para>
+        </listitem>
+        <listitem>
+          <para>XML schema</para>
+        </listitem>
+        <listitem>
+          <para>HTML 5</para>
+        </listitem>
+        <listitem>
+          <para>CSS 3</para>
+        </listitem>
+        <listitem>
+          <para>JSON</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Vývojové prostředí a další nástroje:</title>
+      <itemizedlist>
+        <listitem>
+          <para>Git</para>
+        </listitem>
+        <listitem>
+          <para>GitHub</para>
+        </listitem>
+        <listitem>
+          <para>Sublime Text 2</para>
+        </listitem>
+        <listitem>
+          <para>Virtualenv</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+  </section>
+</article>
