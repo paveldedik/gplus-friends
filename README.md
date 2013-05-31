@@ -1,3 +1,7 @@
+Demo
+----
+The application is available at [heroku](http://gplusfriends.herokuapp.com).
+
 Run the application
 -------------------
 To run the application you will need python 2.7 and `pip` (python package manager). However, I recommend using `virtualenv` as well.
@@ -17,3 +21,7 @@ $ python runserver.py
 ```
 
 Which will start up the server on the localhost (`127.0.0.1:5000`).
+
+Licence
+-------
+The application is released under the [MIT License](http://www.opensource.org/licenses/MIT).
