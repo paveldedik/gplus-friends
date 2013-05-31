@@ -5,7 +5,6 @@ Application models
 ==================
 """
 
-import os
 import json
 
 from lxml import etree
