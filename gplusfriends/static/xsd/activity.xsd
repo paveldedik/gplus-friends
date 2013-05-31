@@ -11,11 +11,11 @@
       <xs:element name="content" type="xs:string"/>
       <xs:element name="publisher" type="entityLinkType"/>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:positiveInteger"/>
+    <xs:attribute name="id" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="entityLinkType">
-    <xs:attribute name="id" type="xs:positiveInteger"/>
+    <xs:attribute name="id" type="xs:string"/>
   </xs:complexType>
 
 </xs:schema>

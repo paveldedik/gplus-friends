@@ -2,7 +2,7 @@
 
 {% block small %}
     <a href="{{ url_for('show_person', pid=person.id) }}?format=xml"
-       class="btn" download="resources.xml">
+       class="btn" download="person.xml">
         <i class="icon-download-alt"></i> Download XML
     </a>
     {{ super() }}

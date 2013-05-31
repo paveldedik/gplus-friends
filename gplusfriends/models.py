@@ -5,7 +5,9 @@ Application models
 ==================
 """
 
+import os
 import json
+
 from lxml import etree
 from datetime import datetime
 
@@ -15,7 +17,9 @@ class DocumentEncoder(json.JSONEncoder):
 
     def default(self, obj):
         if isinstance(obj, Document):
-            return obj.to_dict()
+            return obj.id
+        if isinstance(obj, datetime):
+            return str(obj)
         return json.JSONEncoder.default(self, obj)
 
 
@@ -67,6 +71,7 @@ class Person(Document):
     :param people: All the friends and pages the person has in their circles.
     :param activities: All the activities the person posted.
     """
+
     def __init__(self, **kwargs):
         self.id = kwargs['id']
         self.name = kwargs['name']
@@ -131,6 +136,7 @@ class Activity(Document):
     :param content: The content of the activity (HTML formated).
     :param publisher: The person who performed the activity.
     """
+
     def __init__(self, **kwargs):
         self.id = kwargs['id']
         self.title = kwargs.get('title')

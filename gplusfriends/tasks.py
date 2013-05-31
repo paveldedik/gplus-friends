@@ -5,7 +5,6 @@ Tasks
 =====
 """
 
-from lxml import etree
 from hashlib import md5
 
 from gplusfriends import cache
@@ -68,16 +67,7 @@ def get_person_xml(person):
     :param person: The person who will be converted.
     :return: XML document as a string.
     """
-    root = etree.Element('resource')
-    root.append(person.to_etree())
-
-    for p in person.people:
-        root.append(p.to_etree())
-    for a in person.activities:
-        root.append(a.to_etree())
-
-    return etree.tostring(root, encoding='UTF-8', pretty_print=True,
-                          xml_declaration=True)
+    return person.to_xml()
 
 
 def get_activity_xml(activity):
