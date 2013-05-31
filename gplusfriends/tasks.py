@@ -64,6 +64,10 @@ def get_activity_data(activity_id):
 
 
 def get_person_xml(person):
+    """Converts Person to an XML document.
+    :param person: The person who will be converted.
+    :return: XML document as a string.
+    """
     root = etree.Element('resource')
     root.append(person.to_etree())
 
@@ -77,4 +81,8 @@ def get_person_xml(person):
 
 
 def get_activity_xml(activity):
+    """Converts Activity to an XML document.
+    :param activity: The activity which will be converted.
+    :return: XML document as a string.
+    """
     return activity.to_xml()
