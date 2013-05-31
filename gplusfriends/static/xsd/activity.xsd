@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="activity" type="activityType"/>
+
+  <xs:complexType name="activityType">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="url" type="xs:string"/>
+      <xs:element name="date" type="xs:date"/>
+      <xs:element name="content" type="xs:string"/>
+      <xs:element name="publisher" type="entityLinkType"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:positiveInteger"/>
+  </xs:complexType>
+
+  <xs:complexType name="entityLinkType">
+    <xs:attribute name="id" type="xs:positiveInteger"/>
+  </xs:complexType>
+
+</xs:schema>

@@ -5,6 +5,24 @@
 {% endblock %}
 
 {% block content %}
-    <p class="lead">You can load users information below.</p>
-    <a href="/people/me" class="btn btn-large">Load Data</a>
+    <p class="lead">You can search people and activities below.</p>
+    <form action="{{ url_for('search_people') }}"
+          method="post" class="form-inline">
+        <legend>Search People</legend>
+        <input name="person" type="text" placeholder="Person ID"/>
+        <button type="submit" class="btn">
+            <i class="icon-search"></i> Search
+        </button>
+        <a href="{{ url_for('show_person', pid='me') }}" class="btn">
+            <i class="icon-user"></i> Me
+        </a>
+    </form>
+    <form action="{{ url_for('search_activities') }}"
+          method="post" class="form-inline">
+        <legend>Search Activities</legend>
+        <input name="activity" type="text" placeholder="Activity ID"/>
+        <button type="submit" class="btn">
+            <i class="icon-search"></i> Search
+        </button>
+    </form>
 {% endblock %}

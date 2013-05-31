@@ -5,12 +5,13 @@ Application Views
 =================
 """
 
-from flask import (render_template, flash, url_for,
+from flask import (render_template, flash, url_for, request,
                    redirect, session, abort)
 
 from gplusfriends import app, google
 from gplusfriends.resources import get_access_token
-from gplusfriends.tasks import get_person_data, get_activity_data
+from gplusfriends.tasks import (get_person_data, get_activity_data,
+                                get_person_xml, get_activity_xml)
 
 
 @app.route('/')
@@ -26,7 +27,7 @@ def index():
 
 
 @app.route('/people/<string:pid>')
-def person(pid):
+def show_person(pid):
     """Endpoint that displays persons's friends, acquantances, followed pages
     and activities (which are notes the users have posted to their stream).
     :param pid: The Google+ ID of the person.
@@ -35,11 +36,14 @@ def person(pid):
     person = get_person_data(pid)
     if person is None:
         abort(401)
-    return render_template('person.html', person=person)
+    elif request.args.get('format') == 'xml':
+        return get_person_xml(person)
+    else:
+        return render_template('person.html', person=person)
 
 
 @app.route('/activities/<string:aid>')
-def activity(aid):
+def show_activity(aid):
     """Endpoint that displays the specified activity.
     :param pid: The Google+ ID of the activity.
     :return: Rendered HTML template which displays activity's data.
@@ -47,7 +51,24 @@ def activity(aid):
     activity = get_activity_data(aid)
     if activity is None:
         abort(401)
-    return render_template('activity.html', activity=activity)
+    elif request.args.get('format') == 'xml':
+        return get_activity_xml(activity)
+    else:
+        return render_template('activity.html', activity=activity)
+
+
+@app.route('/people', methods=['POST'])
+def search_people():
+    """Redirects the user to a person corresponding the inserted value."""
+    person_id = request.form['person']
+    return redirect(url_for('show_person', pid=person_id))
+
+
+@app.route('/activities', methods=['POST'])
+def search_activities():
+    """Redirects the user to an activity corresponding the inserted value."""
+    activity_id = request.form['activity']
+    return redirect(url_for('show_activity', aid=activity_id))
 
 
 @app.route('/login')

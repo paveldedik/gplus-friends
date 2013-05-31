@@ -97,10 +97,10 @@ class Person(Document):
                         elem.append(person)
                 elif attr == 'activities':
                     for activity in value:
-                        activity = etree.Element('person', id=activity.id)
+                        activity = etree.Element('activity', id=activity.id)
                         elem.append(activity)
                 else:
-                    elem.text = value.decode('UTF-8')
+                    elem.text = value
 
                 root.append(elem)
 
@@ -153,7 +153,12 @@ class Activity(Document):
 
             if value:
                 elem = etree.Element(attr)
-                elem.text = value.decode('utf-8')
+                if attr == 'date':
+                    elem.text = datetime.strftime(value, '%Y-%m-%d')
+                elif attr == 'publisher':
+                    elem.set('id', value.id)
+                else:
+                    elem.text = value
                 root.append(elem)
 
         return root

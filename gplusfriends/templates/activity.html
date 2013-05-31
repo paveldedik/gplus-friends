@@ -1,6 +1,22 @@
 {% extends "loggedin.html" %}
 
+{% block small %}
+    <a href="{{ url_for('show_activity', aid=activity.id) }}?format=xml"
+       class="btn" download="activity.xml">
+        <i class="icon-download-alt"></i> Download XML
+    </a>
+    {{ super() }}
+{% endblock %}
+
 {% block content %}
-    <p class="lead">{{ activity.title }}</p>
-    <p>{{ activity.content }}</p>
+    <p class="lead">
+        +<a href="{{ url_for('show_person', pid=activity.publisher.id) }}"
+            >{{activity.publisher.name}}</a> wrote
+            {% if activity.title %}&ndash; {{ activity.title }}
+            {% endif %}
+        </p>
+    <p>{{ activity.content|safe }}</p>
+    <p class="pull-right">
+        <i class="icon-time"></i> {{ activity.date.strftime('%d %B %Y') }}
+    </p>
 {% endblock %}

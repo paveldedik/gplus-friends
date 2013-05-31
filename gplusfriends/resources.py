@@ -35,8 +35,10 @@ def resource(endpoint):
         def decorator(**kwargs):
             formated = endpoint.format(**kwargs)
             resp = google.get(formated, headers=get_header())
-            if resp.status != 200:
+            if resp.status == 401:
                 abort(resp.status)
+            if resp.status != 200:
+                return
             return func(resp.data)
         return decorator
     return wrapper

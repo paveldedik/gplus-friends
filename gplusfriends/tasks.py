@@ -5,6 +5,7 @@ Tasks
 =====
 """
 
+from lxml import etree
 from hashlib import md5
 
 from gplusfriends import cache
@@ -43,11 +44,12 @@ def get_person_data(person_id):
     """
     person = get_person(id=person_id)
     activities = get_activities(id=person_id)
-    person.activities.extend(activities)
+    people = get_people(id=person_id)
 
-    if person_id == 'me':
-        people = get_people(id=person_id)
+    if people:
         person.people.extend(people)
+    if activities:
+        person.activities.extend(activities)
 
     return person
 
@@ -59,3 +61,20 @@ def get_activity_data(activity_id):
     :return: An instance of the :class:`models.Activity`.
     """
     return get_activity(id=activity_id)
+
+
+def get_person_xml(person):
+    root = etree.Element('resource')
+    root.append(person.to_etree())
+
+    for p in person.people:
+        root.append(p.to_etree())
+    for a in person.activities:
+        root.append(a.to_etree())
+
+    return etree.tostring(root, encoding='UTF-8', pretty_print=True,
+                          xml_declaration=True)
+
+
+def get_activity_xml(activity):
+    return activity.to_xml()
