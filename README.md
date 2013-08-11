@@ -1,6 +1,6 @@
 Demo
 ----
-The application is available at [heroku](http://gplusfriends.herokuapp.com).
+The application is available on [heroku](http://gplusfriends.herokuapp.com) (currently unavailable).
 
 Run the application
 -------------------
